@@ -1,10 +1,10 @@
-# BetaLiva E-Commerce Projesi 🚀
+# BetaLiva E-Commerce Projesi 
 
 Bu proje, modern web teknolojileri kullanılarak geliştirilmiş, kapsamlı bir E-Ticaret platformudur. Hem kullanıcılar hem de yöneticiler (admin) için optimize edilmiş gelişmiş özellikler sunar.
 
 ## 🌟 Öne Çıkan Özellikler
 
-### 👤 Kullanıcı Deneyimi
+###  Kullanıcı Deneyimi
 - **Dinamik Ürün Listeleme:** Ürünleri kategorilere, markalara ve fiyat aralıklarına göre filtreleme.
 - **Gelişmiş Arama:** Ürün adı üzerinden gerçek zamanlı arama.
 - **Sepet ve Favoriler:** Giriş yapmadan bile ürünleri sepete ve favorilere ekleyebilme (LocalStorage kalıcılığı ile).
@@ -12,17 +12,17 @@ Bu proje, modern web teknolojileri kullanılarak geliştirilmiş, kapsamlı bir 
 - **Profil Yönetimi:** Kullanıcı bilgilerini görüntüleme ve çıkış yapma.
 - **Güvenli Ödeme Akışı:** Satın alma aşamasında giriş kontrolü ve adım adım ödeme simülasyonu.
 
-### 🔐 Kimlik Doğrulama ve Yetkilendirme
+###  Kimlik Doğrulama ve Yetkilendirme
 - **JWT Tabanlı Güvenlik:** Tüm API isteklerinde Bearer Token doğrulama.
 - **Otomatik Giriş:** Kayıt olan kullanıcının anında sisteme giriş yapması.
 - **Kişiselleştirilmiş Menü:** Kullanıcı rolüne (User/Admin) göre dinamik değişen arayüz.
 
-### 🛠 Yönetim Paneli (Admin Panel)
+###  Yönetim Paneli (Admin Panel)
 - **Ürün Yönetimi:** Yeni ürün ekleme (resim yükleme desteği ile), güncelleme ve silme.
 - **Kategori ve Marka Yönetimi:** İhtiyaca göre kategori ve markaları organize etme.
 - **Yetki Kontrolü:** Panel sayfalarına sadece admin rolündeki kullanıcıların erişebilmesi.
 
-## 🚀 Teknolojik Yığın (Tech Stack)
+##  Teknolojik Yığın (Tech Stack)
 
 ### Frontend
 - **Framework:** React + Vite
@@ -40,7 +40,7 @@ Bu proje, modern web teknolojileri kullanılarak geliştirilmiş, kapsamlı bir 
 
 ---
 
-## 🛠 Kurulum ve Çalıştırma
+##  Kurulum ve Çalıştırma
 
 ### 1. Projeyi Klonlayın
 ```bash
@@ -75,7 +75,7 @@ npm run dev
 
 ---
 
-## 📸 Ekran Görüntüleri ve Tasarım
+##  Ekran Görüntüleri ve Tasarım
 Proje, kullanıcı dostu bir arayüz için **Mantine UI** bileşenleri ve **Tabler Icons** setleri ile modernize edilmiştir. `Glassmorphism` etkileri ve akıcı geçiş animasyonları ile premium bir deneyim sunulmuştur.
 
 ## 🎓 Proje Amacı
