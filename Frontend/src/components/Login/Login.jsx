@@ -12,12 +12,15 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { useContext, useState } from "react";
 import { axiosClient } from "../axiosClient";
+import { Context } from "../../App";
 import styles from "./Login.module.css";
 
 function Login() {
   const navigate = useNavigate();
+  const ctx = useContext(Context);
   const [notification, setNotification] = useState(null);
 
   const form = useForm({
@@ -34,29 +37,32 @@ function Login() {
 
   const handleLoginForm = async (values) => {
     try {
-      const response = await axiosClient.post("/api/auth/login", values, {
-        withCredentials: true,
-      });
-      if (response.response.status === 200) {
-        console.log(response.data);
+      const response = await axiosClient.post("/api/auth/login", values);
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(response.data.response.user)
-        );
-        localStorage.setItem("token", response.data.response.token);
+      if (response.status === 200 && response.data.response.message === "success") {
+        const { user, token } = response.data.response;
+
+        ctx.setUser(user);
+        localStorage.setItem("token", token);
+
         navigate("/");
+        notifications.show({
+          title: "Başarılı",
+          message: "Giriş yapıldı!",
+          color: "green",
+        });
       } else {
         setNotification({
-          title: "Error",
-          message: "Invalid email or password",
+          title: "Hata",
+          message: response.data.response?.message || "Geçersiz e-posta veya şifre",
           color: "red",
         });
       }
     } catch (error) {
+      console.error("Login hatası:", error);
       setNotification({
-        title: "Error",
-        message: "Login error. Please try again.",
+        title: "Hata",
+        message: "Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.",
         color: "red",
       });
     }

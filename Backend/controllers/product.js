@@ -81,6 +81,17 @@ const productController = {
       res.status(500).send({ error: "Ürünler getirilirken bir hata oluştu" });
     }
   },
+  rateProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { rating } = req.body;
+      const response = await productService.rateProduct(id, rating);
+      res.status(200).send({ success: true, response });
+    } catch (e) {
+      console.log(e, "error");
+      res.status(500).send({ error: "Puan verilirken bir hata oluştu" });
+    }
+  },
 };
 
 module.exports = productController;

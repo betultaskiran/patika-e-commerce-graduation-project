@@ -25,4 +25,6 @@ router.post(
   productController.createProduct
 );
 
+router.post("/rate/:id", productController.rateProduct);
+
 module.exports = router;

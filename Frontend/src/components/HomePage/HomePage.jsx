@@ -27,6 +27,7 @@ function HomePage() {
 export default HomePage;*/
 import React, { useState, useEffect, useContext } from "react";
 import { SimpleGrid, Container } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 import { CardsCarousel } from "../Carousel/CardsCarousel";
 import { FeaturesCard } from "../Card/FeaturesCard";
 import styles from "./HomePage.module.css";
@@ -35,8 +36,13 @@ import { Context } from "../../App";
 
 function HomePage() {
   const ctx = useContext(Context);
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]); // State to store fetched products
   const [loading, setLoading] = useState(true); // State for loading status
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
   // Fetch products when page loads
   useEffect(() => {
@@ -80,6 +86,7 @@ function HomePage() {
                 <FeaturesCard
                   key={product._id}
                   product={product} // Pass the product to the card component
+                  handleProductClick={handleProductClick}
                 />
               ))}
             </SimpleGrid>

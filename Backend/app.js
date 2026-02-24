@@ -2,7 +2,8 @@ const express = require("express");
 const routes = require("./routes/index");
 const mongoose = require("mongoose");
 const config = require("./config/db");
-require("dotenv").config(); // .env dosyasını yüklemek için
+require("dotenv").config(); //.env içeriğini process.env içine yükler.
+//process.env.XXX	.env'den gelen değerleri okur.
 const cors = require("cors");
 const bodyParser = require("body-parser");
 

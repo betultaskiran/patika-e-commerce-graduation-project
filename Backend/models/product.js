@@ -27,6 +27,14 @@ const productSchema = new mongoose.Schema({
     ref: "Brand",
     required: true,
   },
+  rating: {
+    type: Number,
+    default: 0,
+  },
+  ratingCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Product", productSchema);

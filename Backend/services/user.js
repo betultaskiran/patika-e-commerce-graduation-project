@@ -12,11 +12,15 @@ async function createUser(userParams) {
       password: hashedPassword,
     });
 
-    newUser.save();
-    return true;
+    const savedUser = await newUser.save();
+    return {
+      id: savedUser._id,
+      username: savedUser.username,
+      email: savedUser.email,
+      role: savedUser.role,
+    };
   } catch (e) {
     console.log(e);
-    console.log("aaaa");
     return false;
   }
 }
@@ -71,3 +75,5 @@ module.exports = {
   getUsers,
   getUser,
 };
+
+//ind, findById, ve findByIdAndDelete Mongoose adlı kütüphaneye ait metodlardır ve MongoDB veritabanı ile çalışmak için kullanılır.

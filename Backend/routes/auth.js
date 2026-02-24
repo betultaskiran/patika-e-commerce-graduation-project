@@ -3,7 +3,7 @@ const authController = require("../controllers/auth"); // Import without destruc
 
 const router = express.Router();
 
-router.post("/login", authController.login);
+router.post("/login", authController.login); //login yolunda gelen POST isteğini yakalar
 router.post("/register", authController.register);
 
 module.exports = router;

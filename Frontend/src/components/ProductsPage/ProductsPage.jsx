@@ -56,6 +56,10 @@ const ProductsPage = () => {
             : undefined,
         brandIds:
           selectedBrands.length > 0 ? selectedBrands.join(",") : undefined,
+        priceRanges:
+          selectedPriceRange.length > 0
+            ? selectedPriceRange.join(",")
+            : undefined,
       };
       const [response, response2, response3] = await Promise.all([
         axiosClient.get("api/product", {

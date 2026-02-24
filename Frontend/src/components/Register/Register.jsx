@@ -10,7 +10,10 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
-import { axiosClient } from "../axiosClient";
+import { notifications } from "@mantine/notifications";
+import { axiosClient } from "../axiosClient.jsx";
+import { useContext } from "react";
+import { Context } from "../../App";
 
 function Register() {
   const navigate = useNavigate();
@@ -36,18 +39,44 @@ function Register() {
     },
   });
 
+  const ctx = useContext(Context);
+
   const handleRegister = async (values) => {
     try {
       const response = await axiosClient.post("api/auth/register", values);
-      if (response.status === 200) {
-        navigate("/login");
+      if (
+        response.status === 200 &&
+        response.data.response.message === "success"
+      ) {
+        const { user, token } = response.data.response;
+
+        ctx.setUser(user);
+        localStorage.setItem("token", token);
+
+        notifications.show({
+          title: "Başarılı",
+          message:
+            "Hesabınız oluşturuldu ve giriş yapıldı! Hoş geldiniz, " +
+            user.username,
+          color: "green",
+        });
+        navigate("/");
       } else {
-        alert(
-          response.data.message || "Registration failed. Please try again."
-        );
+        notifications.show({
+          title: "Hata",
+          message: response.data.response?.message || "Kayıt başarısız.",
+          color: "red",
+        });
       }
     } catch (error) {
-      alert(error.response?.data?.message || "An error occurred");
+      console.error("Register hatası:", error);
+      notifications.show({
+        title: "Hata",
+        message:
+          error.response?.data?.message ||
+          "Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+        color: "red",
+      });
     }
   };
 

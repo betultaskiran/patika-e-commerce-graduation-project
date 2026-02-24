@@ -33,7 +33,9 @@ import {
   Popover,
   ActionIcon,
   Flex,
+  Indicator,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { useContext, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
@@ -142,7 +144,27 @@ export function HeaderMegaMenu() {
             <a className={classes.link} onClick={() => navigate("/contact")}>
               Contact
             </a>
-            <a className={classes.link} onClick={() => navigate("/admin")}>
+            <a
+              className={classes.link}
+              onClick={() => {
+                if (!ctx.user) {
+                  notifications.show({
+                    title: "Yönetici Girişi Gerekli",
+                    message: "Admin paneline erişmek için lütfen yönetici hesabınızla giriş yapın.",
+                    color: "orange",
+                  });
+                  navigate("/login");
+                } else if (ctx.user.role !== "admin") {
+                  notifications.show({
+                    title: "Yetkisiz Erişim",
+                    message: "Bu alana sadece yöneticiler erişebilir.",
+                    color: "red",
+                  });
+                } else {
+                  navigate("/admin");
+                }
+              }}
+            >
               Admin Panel
             </a>
           </Group>
@@ -165,37 +187,58 @@ export function HeaderMegaMenu() {
               />
             )}
             {/* Heart Icon */}
-            <ActionIcon size="lg" variant="transparent" color="white">
-              <IconHeart size={24} />
-            </ActionIcon>
+            <Indicator
+              label={ctx.favorites.length}
+              size={16}
+              offset={5}
+              disabled={ctx.favorites.length === 0}
+              color="pink"
+            >
+              <ActionIcon
+                size="lg"
+                variant="transparent"
+                color="white"
+                onClick={() => navigate("/favorites")}
+              >
+                <IconHeart size={24} />
+              </ActionIcon>
+            </Indicator>
             {/* Cart Icon*/}
             <Popover opened={opened} onChange={setOpened}>
               <Popover.Target>
-                <ActionIcon
-                  size="lg"
-                  variant="transparent"
-                  onClick={(e) => setOpened(!opened)}
-                  color="white"
+                <Indicator
+                  label={ctx.basket.length}
+                  size={16}
+                  offset={5}
+                  disabled={ctx.basket.length === 0}
+                  color="red"
                 >
-                  <IconShoppingCart size={24} />
-                </ActionIcon>
+                  <ActionIcon
+                    size="lg"
+                    variant="transparent"
+                    onClick={(e) => setOpened(!opened)}
+                    color="white"
+                  >
+                    <IconShoppingCart size={24} />
+                  </ActionIcon>
+                </Indicator>
               </Popover.Target>
               <Popover.Dropdown>
                 <div className={classes.productList}>
                   {ctx.basket.length > 0
                     ? ctx.basket.map((item) => (
-                        <div className={classes.productListItem}>
-                          <img
-                            src={"http://localhost:3000" + item.productImage}
-                            width={50}
-                            alt={item.productName}
-                          />
-                          <div>{item.productName}</div>
-                          <div>
-                            ${item.price} x {item.quantity}
-                          </div>
+                      <div className={classes.productListItem}>
+                        <img
+                          src={"http://localhost:3000" + item.productImage}
+                          width={50}
+                          alt={item.productName}
+                        />
+                        <div>{item.productName}</div>
+                        <div>
+                          ${item.price} x {item.quantity}
                         </div>
-                      ))
+                      </div>
+                    ))
                     : "Hiç Ürün Eklemediniz"}
                   <Flex gap={20} pt={20}>
                     <Button
@@ -225,12 +268,38 @@ export function HeaderMegaMenu() {
                 </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item onClick={() => navigate("/login")}>
-                  Giriş Yap
-                </Menu.Item>
-                <Menu.Item onClick={() => navigate("/register")}>
-                  Kayıt Ol
-                </Menu.Item>
+                {ctx.user ? (
+                  <>
+                    <Menu.Label>Hesabım ({ctx.user.username})</Menu.Label>
+                    <Menu.Item onClick={() => navigate("/profile")}>
+                      Profilim
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item
+                      color="red"
+                      onClick={() => {
+                        ctx.logout();
+                        navigate("/");
+                        notifications.show({
+                          title: "Başarılı",
+                          message: "Çıkış yapıldı.",
+                          color: "blue",
+                        });
+                      }}
+                    >
+                      Çıkış Yap
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <>
+                    <Menu.Item onClick={() => navigate("/login")}>
+                      Giriş Yap
+                    </Menu.Item>
+                    <Menu.Item onClick={() => navigate("/register")}>
+                      Kayıt Ol
+                    </Menu.Item>
+                  </>
+                )}
               </Menu.Dropdown>
             </Menu>
           </Group>

@@ -41,28 +41,27 @@ router.post("/", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: "betultaskiran34@gmail.com",
-        pass: "jjdhlxdjquawszzb",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
         rejectUnauthorized: false,
       },
-      debug: true,
-      logger: true,
     });
 
     let info = await transporter.sendMail({
-      from: '"Gift Of Jewelry Contact Form" <kkicontact19@gmail.com>',
-      to: "betultaskiran34@gmail.com",
-      subject: `Gift Of Jewelry Form New Message: ${subject}`,
+      from: `"Gift Of Jewelry" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: `Gift Of Jewelry Form Yeni Mesaj: ${subject}`,
       html: outputMessage,
     });
 
     res.status(200).json({ message: "Mesaj başarıyla gönderildi!" });
   } catch (error) {
-    console.error("E-posta gönderim hatası:", error);
+    console.error("E-posta gönderim hatası detayı:", error);
     res.status(500).json({
-      error: "Mesaj gönderilemedi, lütfen daha sonra tekrar deneyin.",
+      error: "Mesaj gönderilemedi.",
+      details: error.message
     });
   }
 });

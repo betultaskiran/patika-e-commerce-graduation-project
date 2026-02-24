@@ -8,8 +8,8 @@ const contactRouter = require("./contact");
 // const basketRouter = require("./basket");
 // const orderRouter = require("./order");
 
-const router = express.Router();
-router.use("/auth", authRouter);
+const router = express.Router(); //express.Router()	Yeni bir küçük router oluşturur. Ana uygulamadan bağımsız olarak çalışabilir.
+router.use("/auth", authRouter); //auth ile başlayan tüm yolları authRouter'a yönlendirir
 router.use("/user", userRouter);
 router.use("/product", productRouter);
 router.use("/category", categoryRouter);

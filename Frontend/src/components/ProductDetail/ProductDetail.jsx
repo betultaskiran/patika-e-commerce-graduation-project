@@ -47,6 +47,7 @@ export default ProductDetail;*/
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Paper, Container, Title, Text, Image } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { axiosClient } from "../axiosClient";
 import styles from "./ProductDetail.module.css";
 import { Context } from "../../App";
@@ -75,6 +76,12 @@ const ProductDetail = () => {
     } else {
       ctx.setBasket((prev) => [...prev, basketItem]);
     }
+
+    notifications.show({
+      title: "Başarılı",
+      message: `${product.productName} sepete eklendi!`,
+      color: "green",
+    });
   };
   useEffect(() => {
     const fetchProductDetails = async () => {
